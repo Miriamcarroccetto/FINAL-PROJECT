@@ -1,6 +1,8 @@
 import express from "express";
 import 'dotenv/config';
 import Experience from "../models/experienceSchema.js"
+import authMiddleware from '../middlewares/authMiddleware.js';
+import requireAdmin from '../middlewares/requireAdmin.js'
 
 const router = express.Router()
 
@@ -18,7 +20,7 @@ router.get('/', async (req, res, next)=> {
 
 // GET WITH ID
 
-router.get('/:id', async(req,res,next)=> {
+router.get('/:id', async (req,res,next)=> {
 
     try {
         const experience = await Experience.findById(req.params.id)
@@ -31,12 +33,13 @@ router.get('/:id', async(req,res,next)=> {
 
 // POST 
 
-router.post ('/', async (req,res,next) => {
+router.post ('/',authMiddleware,  requireAdmin, async (req,res,next) => {
 
     const {title, category, description, city, price, duration, date} = req.body
 
     try {
         const newExperience = new Experience({
+            adminId: req.user._id,
             title,
             category,
             description,
@@ -55,7 +58,7 @@ router.post ('/', async (req,res,next) => {
 
 // PUT
 
-router.put('/:id', async(req,res,next)=> {
+router.put('/:id',authMiddleware,  requireAdmin, async(req,res,next)=> {
 
     try {
         const experience = await Experience.findByIdAndUpdate(req.params.id, req.body, {
@@ -74,11 +77,11 @@ router.put('/:id', async(req,res,next)=> {
 
 // DELETE
 
-router.delete('/:id' , async(req,res,next)=> {
+router.delete('/:id', authMiddleware,  requireAdmin, async(req,res,next)=> {
     
     try {
         const experience = await Experience.findByIdAndDelete(req.params.id)
-    if(!experience) return res.status(404).json({error: 'Esperienxa non trovata'})
+    if(!experience) return res.status(404).json({error: 'Esperienza non trovata'})
         res.status(200).json({ message: 'Esperienza eliminata con successo'})
 
     } catch (err) {
