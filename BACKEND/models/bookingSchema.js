@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema ({
-    userId: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    experienceId: {
+    experience: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Experience',
         required: true

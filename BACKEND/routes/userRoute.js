@@ -5,6 +5,7 @@ import { login } from "../middlewares/authController.js";
 import authMiddleware from '../middlewares/authMiddleware.js';
 import bcrypt from 'bcrypt';
 import { generateToken } from "../utils/generateToken.js";
+import passport from "passport";
 
 const saltRounds = parseInt(process.env.SALT_ROUNDS)
 const jwtSecretKey = process.env.JWT_SECRET_KEY
@@ -15,6 +16,24 @@ const router = express.Router()
 //LOGIN
 
 router.post('/login', login)
+
+//GOOGLE LOGIN
+
+router.get('auth/googlelogin', passport.authenticate("google", {scope:["profile", "email"]}))
+
+router.get('/auth/callback', passport.authenticate("google", {session: false, failureRedirect: '/login'}),
+(req, res, next) => {
+      try {
+       res.redirect(`http://localhost:3000/home?token=${req.user.accessToken}`)
+
+      if (!token) {
+        return res.status(400).json({ message: "Token non trovato" });
+      }
+    
+    } catch (err) {
+      next(err)
+    }
+})
 
 
 // GET USERS
@@ -46,7 +65,7 @@ router.get('/me', authMiddleware, async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-});
+})
 
 // GET WITH ID
 
@@ -66,7 +85,7 @@ router.get('/:id', async (req, res, next) => {
 
 // POST (register)
 
-router.post('/', async (req, res, next) => {
+router.post('/register', async (req, res, next) => {
     const { name, lastname, email, birthday, password, isAdmin } = req.body
 
     try {
@@ -84,7 +103,7 @@ router.post('/', async (req, res, next) => {
             email,
             birthday,
             password: hashedPassword,
-            isAdmin
+            isAdmin: false
         })
 
         await newUser.save()

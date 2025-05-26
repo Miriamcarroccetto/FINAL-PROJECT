@@ -4,6 +4,8 @@ import cors from 'cors';
 import db from './db.js';
 import userRoute from './routes/userRoute.js'
 import experienceRoute from './routes/experienceRoute.js'
+import passport from 'passport';
+import googleStrategy from "./middlewares/OauthMiddleware.js";
 
 const app = express()
 
@@ -13,6 +15,7 @@ app.use(cors({
 }))
 
 app.use(express.json())
+passport.use('google',googleStrategy)
 
 db()
 

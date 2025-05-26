@@ -1,6 +1,9 @@
 import {Container, Nav, Navbar, NavDropdown, Form, Button, Col, Row} from 'react-bootstrap';
 import logo from '../assets/logo.png';
 import '../navbar/navbarWeb.css';
+import { FaRegUserCircle } from "react-icons/fa";
+import { IoMdHome, IoMdLogOut, IoMdMap   } from "react-icons/io";
+
 
 
 
@@ -10,23 +13,24 @@ function NavbarWeb() {
     <Navbar fixed="top" expand="lg" className="bg-body-light my-navbar">
       <Container>
         <Navbar.Brand href="#home">
-            <img src={logo} alt="logo" height="40" className='d-inline-block align-top' />
+            <h1>ESPERIA</h1>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Le tue esperienze </Nav.Link>
+            <Nav.Link href="#home"> <IoMdHome/> </Nav.Link>
+            <Nav.Link href="#link"><IoMdMap/> Le tue esperienze </Nav.Link>
             <NavDropdown title="Categorie" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.1">Cultura e tradizioni</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
-                Another action
+                Gastronomia e degustazioni
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Natura e avventura</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.4"> Benessere e relax</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.5"> Arte e creatività</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.6"> Eventi e spettacoli</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.7">Avventure urbane</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.8">Sport e attività all’aperto</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
@@ -40,8 +44,11 @@ function NavbarWeb() {
               className=" mr-sm-2"
             />
           </Col>
-          <Col xs="auto">
-            <Button type="submit">Cerca</Button>
+          <Col>
+          <FaRegUserCircle/>
+          </Col>
+          <Col>
+          <IoMdLogOut />
           </Col>
         </Row>
       </Form>

@@ -6,6 +6,7 @@ export default function FooterWeb() {
     <footer  style={{
         paddingTop: 50,
         paddingBottom: 50,
+        
       }}>
          <Container>{`${new Date().getFullYear()} - © ESPERIA | Avventure a portata di click.`}</Container>
       

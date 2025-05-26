@@ -33,7 +33,7 @@ router.get('/:id', async (req,res,next)=> {
 
 // POST 
 
-router.post ('/',authMiddleware,  requireAdmin, async (req,res,next) => {
+router.post ('/',[authMiddleware,  requireAdmin], async (req,res,next) => {
 
     const {title, category, description, city, price, duration, date} = req.body
 
@@ -58,7 +58,7 @@ router.post ('/',authMiddleware,  requireAdmin, async (req,res,next) => {
 
 // PUT
 
-router.put('/:id',authMiddleware,  requireAdmin, async(req,res,next)=> {
+router.put('/:id',[authMiddleware,  requireAdmin], async(req,res,next)=> {
 
     try {
         const experience = await Experience.findByIdAndUpdate(req.params.id, req.body, {
@@ -77,7 +77,7 @@ router.put('/:id',authMiddleware,  requireAdmin, async(req,res,next)=> {
 
 // DELETE
 
-router.delete('/:id', authMiddleware,  requireAdmin, async(req,res,next)=> {
+router.delete('/:id', [authMiddleware,  requireAdmin], async(req,res,next)=> {
     
     try {
         const experience = await Experience.findByIdAndDelete(req.params.id)
