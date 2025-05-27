@@ -2,7 +2,7 @@ import User from "../models/userSchema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import 'dotenv/config';
-import { generateToken } from "../utils/generateToken.js";
+
 
 const jwtSecretKey = process.env.JWT_SECRET_KEY;
 
@@ -13,20 +13,25 @@ export const login = async (req, res) => {
    
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ error: "Credenziali non valide" });
+      return res.status(401).json({ error: "Email non valida" });
     }
 
-    
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return res.status(401).json({ error: "Credenziali non valide" });
+    const validPassword = await bcrypt.compare(password, user.password)
+    if(!validPassword) {
+      return res.status(400).json({ message: "Password non valida"})
     }
-
-    const token = generateToken({ id: user._id, isAdmin: user.isAdmin})
-
-
    
-    res.status(200).json({
+    const token = jwt.sign({
+          id: user._id,
+        email: user.email,
+        name: user.name,
+        lastname: user.lastname,
+        isAdmin: user.isAdmin
+    }, jwtSecretKey,
+      { expiresIn: '60d' })
+
+
+      return res.status(200).json({
       message: "Login effettuato con successo",
       token,
       user: {
@@ -34,8 +39,8 @@ export const login = async (req, res) => {
         name: user.name,
         lastname: user.lastname,
         email: user.email,
-        isAdmin: user.isAdmin,
-      },
+        isAdmin: user.isAdmin
+      }
     });
 
   } catch (err) {

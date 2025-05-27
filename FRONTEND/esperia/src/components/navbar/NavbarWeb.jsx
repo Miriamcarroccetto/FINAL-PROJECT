@@ -1,5 +1,6 @@
 import {Container, Nav, Navbar, NavDropdown, Form, Button, Col, Row} from 'react-bootstrap';
 import logo from '../assets/logo.png';
+import { Link } from 'react-router-dom';
 import '../navbar/navbarWeb.css';
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoMdHome, IoMdLogOut, IoMdMap   } from "react-icons/io";
@@ -45,7 +46,9 @@ function NavbarWeb() {
             />
           </Col>
           <Col>
-          <FaRegUserCircle/>
+          <Link to="/login">
+          <FaRegUserCircle style={{ cursor: 'pointer' }}/>
+          </Link>
           </Col>
           <Col>
           <IoMdLogOut />

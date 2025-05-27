@@ -8,8 +8,6 @@ import { generateToken } from "../utils/generateToken.js";
 import passport from "passport";
 
 const saltRounds = parseInt(process.env.SALT_ROUNDS)
-const jwtSecretKey = process.env.JWT_SECRET_KEY
-
 
 const router = express.Router()
 
@@ -19,17 +17,18 @@ router.post('/login', login)
 
 //GOOGLE LOGIN
 
-router.get('auth/googlelogin', passport.authenticate("google", {scope:["profile", "email"]}))
+router.get('/auth/googlelogin', passport.authenticate("google", {scope:["profile", "email"]}))
 
 router.get('/auth/callback', passport.authenticate("google", {session: false, failureRedirect: '/login'}),
 (req, res, next) => {
       try {
-       res.redirect(`http://localhost:3000/home?token=${req.user.accessToken}`)
+        const token = req.user.accessToken
+        
+       res.redirect(`http://localhost:5173/home?token=${token}`)
 
-      if (!token) {
+       if (!token) {
         return res.status(400).json({ message: "Token non trovato" });
       }
-    
     } catch (err) {
       next(err)
     }
