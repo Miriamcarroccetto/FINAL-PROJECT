@@ -85,7 +85,7 @@ router.get('/:id', async (req, res, next) => {
 // POST (register)
 
 router.post('/register', async (req, res, next) => {
-    const { name, lastname, email, birthday, password, isAdmin } = req.body
+    const { name, lastname, email, birthday, password } = req.body
 
     try {
 
