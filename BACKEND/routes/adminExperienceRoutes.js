@@ -4,6 +4,10 @@ import Experience from "../models/experienceSchema.js"
 import authMiddleware from '../middlewares/authMiddleware.js';
 import requireAdmin from '../middlewares/requireAdmin.js';
 import experienceOwner from "../middlewares/experienceOwner.js";
+import multer from 'multer'
+import { storageCloud } from "../config/cloudinary.js"
+
+const upload = multer({ storageCloud })
 
 
 const router = express.Router()
@@ -12,20 +16,22 @@ const router = express.Router()
 
 // POST 
 
-router.post ('/',[authMiddleware,  requireAdmin], async (req,res,next) => {
+router.post ('/',[authMiddleware,  requireAdmin, upload.single('image')], async (req,res,next) => {
 
-    const {title, category, description, city, price, duration, date} = req.body
+    const {title, category, description, city, price, duration, date, image} = req.body
 
     try {
+        const imageUrl = req.file ? req.file.path : null
         const newExperience = new Experience({
-            adminId: req.user._id,
+            user: req.user._id,
             title,
             category,
             description,
             city,
             price,
             duration,
-            date
+            date,
+            image: imageUrl,
         })
     await newExperience.save()
     res.status(201).json(newExperience)
@@ -37,22 +43,42 @@ router.post ('/',[authMiddleware,  requireAdmin], async (req,res,next) => {
 
 // PUT
 
-router.put('/:id',[authMiddleware,  requireAdmin, experienceOwner], async(req,res,next)=> {
+router.put('/:id', [authMiddleware, requireAdmin, experienceOwner, upload.single('image')], async (req, res, next) => {
+  try {
 
-    try {
-        const experience = await Experience.findByIdAndUpdate(req.params.id, req.body, {
-            new:true,
-            runValidators:true
-        })
-    if(!experience) {
-        return res.status(404).json({error: 'Esperienza non trovata'})
+    const experience = await Experience.findById(req.params.id);
+    if (!experience) {
+      return res.status(404).json({ error: 'Esperienza non trovata' });
     }
-    res.status(200).json(experience)
 
-    } catch(err) {
-        next(err)
+    const { title, category, description, city, price, duration, date } = req.body;
+
+   
+    if (title) experience.title = title;
+    if (category) experience.category = category;
+    if (description) experience.description = description;
+    if (city) experience.city = city;
+    if (price) experience.price = price;
+    if (date) experience.date = date;
+
+    
+    if (duration) {
+      experience.duration = typeof duration === 'string' ? JSON.parse(duration) : duration;
     }
-})
+
+  
+    if (req.file) {
+      experience.image = req.file.path;
+    }
+
+    const updatedExperience = await experience.save();
+    res.status(200).json(updatedExperience);
+
+  } catch (err) {
+    next(err);
+  }
+});
+
 
 // DELETE
 

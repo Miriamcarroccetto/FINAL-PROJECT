@@ -10,6 +10,7 @@ import adminRegister from './routes/adminRegister.js'
 import adminBookingRoutes from './routes/adminBookingRoutes.js'
 import passport from 'passport';
 import googleStrategy from "./middlewares/OauthMiddleware.js";
+import errorHandler from './middlewares/errorHandler.js';
 
 const app = express()
 
@@ -29,6 +30,8 @@ app.use('/admin/experiences', adminExperienceRoutes)
 app.use('/register', adminRegister)
 app.use('/bookings', bookingRoutes)
 app.use('/admin/bookings', adminBookingRoutes)
+
+app.use(errorHandler)
 
 app.listen(process.env.PORT, ()=> {
     console.log(`Server is running on port ${process.env.PORT}`)
