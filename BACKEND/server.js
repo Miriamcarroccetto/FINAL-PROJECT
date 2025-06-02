@@ -27,7 +27,7 @@ db()
 app.use('/users', userRoute)
 app.use('/experiences', experienceRoute)
 app.use('/admin/experiences', adminExperienceRoutes)
-app.use('/register', adminRegister)
+app.use('/admin/register', adminRegister)
 app.use('/bookings', bookingRoutes)
 app.use('/admin/bookings', adminBookingRoutes)
 

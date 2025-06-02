@@ -3,7 +3,9 @@ import NavbarWeb from './components/navbar/NavbarWeb';
 import FooterWeb from './components/footer/FooterWeb';
 import Homepage from './components/pages/Homepage';
 import LoginPage from './components/pages/LoginPage';
+import RegisterPage from './components/pages/RegisterPage';
 import {BrowserRouter,  Route, Routes } from 'react-router-dom';
+import AddExperience from './components/admin/AddExperience';
 
 
 export default function App() {
@@ -43,9 +45,11 @@ export default function App() {
     <>
     <BrowserRouter>
       <NavbarWeb/>
+      <AddExperience/>
       <Routes>
-        <Route path="/home" exact element={<Homepage/>}></Route>
+        <Route path="/" exact element={<Homepage/>}></Route>
         <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} fetchUsers={fetchUsers} />} />
+         <Route path="/register" element={<RegisterPage setIsLoggedIn={setIsLoggedIn} fetchUsers={fetchUsers} />} />
       </Routes>
       <FooterWeb/>
     </BrowserRouter>

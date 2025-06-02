@@ -67,6 +67,7 @@ export default function LoginPage({ setIsLoggedIn, fetchUsers }) {
   };
 
   return (
+    
     <Container className="page-container mt-5 pt-5" style={{ maxWidth: '400px' }}>
       <h2>Login</h2>
       {errorMsg && <Alert variant="danger">{errorMsg}</Alert>}
@@ -99,6 +100,7 @@ export default function LoginPage({ setIsLoggedIn, fetchUsers }) {
       </p>
 
     </Container>
+    
   )
 }
 
