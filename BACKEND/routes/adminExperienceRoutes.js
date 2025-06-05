@@ -7,7 +7,7 @@ import experienceOwner from "../middlewares/experienceOwner.js";
 import multer from 'multer'
 import { storageCloud } from "../utils/cloudinaryConfig.js"
 
-const upload = multer({ storageCloud })
+const upload = multer({ storage: storageCloud })
 
 
 const router = express.Router()
@@ -57,6 +57,7 @@ router.post(
       } = req.body;
 
       const imageUrl = req.file ? req.file.path : null;
+      console.log(req.file)
 
       const newExperience = new Experience({
         user: req.user._id,
