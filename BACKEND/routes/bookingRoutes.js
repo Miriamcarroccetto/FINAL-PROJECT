@@ -64,7 +64,7 @@ router.delete('/:id', [authMiddleware, bookingOwner], async (req,res, next)=> {
 router.get('/me', authMiddleware, async (req, res, next)=> {
 
     try {
-        const bookings = await Booking.find({ user: req.params._id}).populate('experience')
+        const bookings = await Booking.find({ user: req.user._id}).populate('experience')
         res.status(20).json(bookings)
     } catch (err) {
         next (err)

@@ -6,6 +6,7 @@ import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import {BrowserRouter,  Route, Routes } from 'react-router-dom';
 import AddExperience from './components/admin/AddExperience';
+import Experience from './components/blog/Experience';
 
 
 export default function App() {
@@ -19,7 +20,7 @@ export default function App() {
       console.warn('Nessun token trovato')
      }
 
-    const res = await fetch(process.env.REACT_APP_APIURL + "/users", {
+    const res = await fetch(import.meta.env.VITE_APIURL + "/users", {
 
     headers: {
       "Content-Type": "application/json",
@@ -45,8 +46,10 @@ export default function App() {
     <>
     <BrowserRouter>
       <NavbarWeb/>
-      <AddExperience/>
       <Routes>
+         <Route path="/home" element={<Homepage />} />
+         <Route path="/experience/:id" element={<Experience />} />
+        <Route path="/new" element={<AddExperience />} />
         <Route path="/" exact element={<Homepage/>}></Route>
         <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} fetchUsers={fetchUsers} />} />
          <Route path="/register" element={<RegisterPage setIsLoggedIn={setIsLoggedIn} fetchUsers={fetchUsers} />} />

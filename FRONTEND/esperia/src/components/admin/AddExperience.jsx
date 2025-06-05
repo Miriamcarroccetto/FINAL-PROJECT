@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Container, Form, Row, Col } from "react-bootstrap";
+import { Button, Container, Form, Row, Col, InputGroup, FormControl } from "react-bootstrap";
 import "../admin/style.css";
 
 const AddExperience = () => {
@@ -20,7 +20,7 @@ const AddExperience = () => {
             if (!token) return;
 
             try {
-                const res = await fetch(`${process.env.VITE_APIURL}/users/me`, {
+                const res = await fetch(`${import.meta.env.VITE_APIURL}/users/me`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -47,29 +47,33 @@ const AddExperience = () => {
             return;
         }
 
-        const payload = {
-            title,
-            category,
-            description,
-            city,
-            price,
-            duration: {
-                value: Number(durationValue),
-                unit: durationUnit
-            },
-            date,
-            image
-        };
-        console.log("Payload inviato:", JSON.stringify(payload, null, 2))
+        const selectedDate = new Date(date)
+        const now = new Date()
+        if (selectedDate < now) {
+            alert("La data selezionata deve essere futura")
+            return
+        }
+
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("category", category);
+        formData.append("description", description);
+        formData.append("city", city);
+        formData.append("price", price);
+        formData.append("date", date);
+        formData.append("duration", JSON.stringify({
+            value: Number(durationValue),
+            unit: durationUnit
+        }));
+        formData.append("image", image)
 
         try {
-            const res = await fetch(`${process.env.VITE_APIURL}/blogPosts`, {
+            const res = await fetch(`${import.meta.env.VITE_APIURL}/admin/experiences/`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(payload),
+                body: formData
             });
 
             if (!res.ok) {
@@ -118,7 +122,7 @@ const AddExperience = () => {
                         onChange={(e) => setCategory(e.target.value)}
                         required
                     >
-                        <option value="">---Seleziona una categoria---</option>
+                        <option value="">Categoria</option>
                         <option>Natura e avventura</option>
                         <option>Benessere e relax</option>
                         <option>Arte e creatività</option>
@@ -129,12 +133,21 @@ const AddExperience = () => {
                 </Form.Group>
 
                 <Form.Group className="mt-3">
-                    <Form.Label>URL Immagine Copertina</Form.Label>
+                    <Form.Label>Immagine Copertina</Form.Label>
+                    <Form.Control
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setImage(e.target.files[0])}
+                    />
+                </Form.Group>
+
+                <Form.Group className="mt-3">
+                    <Form.Label>Città</Form.Label>
                     <Form.Control
                         size="lg"
-                        placeholder="https://..."
-                        value={image}
-                        onChange={(e) => setImage(e.target.value)}
+                        placeholder="Città"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
                         required
                     />
                 </Form.Group>
@@ -172,12 +185,41 @@ const AddExperience = () => {
                             onChange={(e) => setDurationUnit(e.target.value)}
                             required
                         >
-                            <option value="">---Unità---</option>
+                            <option value="">Unità</option>
                             <option>ore</option>
                             <option>giorni</option>
                         </Form.Control>
                     </Col>
+
                 </Row>
+
+                <Form.Group className="mt-3">
+                    <Form.Label>Prezzo</Form.Label>
+                    <InputGroup>
+                        <Form.Control
+                            size="lg"
+                            type="number"
+                            placeholder="Prezzo"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            required
+                        />
+
+                        <InputGroup.Text>€</InputGroup.Text>
+                    </InputGroup>
+                </Form.Group>
+
+
+                <Form.Group className="mt-3">
+                    <Form.Label>Data</Form.Label>
+                    <Form.Control
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        required
+                    />
+                </Form.Group>
+
 
 
                 <Form.Group className="d-flex mt-4 justify-content-end">
@@ -189,6 +231,7 @@ const AddExperience = () => {
                             setTitle("");
                             setCategory("");
                             setDescription("");
+                            setCity("");
                             setPrice("");
                             setDurationUnit("");
                             setDurationValue("");

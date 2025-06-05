@@ -12,7 +12,7 @@ const router = express.Router()
 router.get('/experience/:id', [authMiddleware, requireAdmin, experienceOwner], async (req, res, next)=> {
 
     try {
-        const bookings = await Booking.find({ experience: req.params._id}).populate('user', 'name email')
+        const bookings = await Booking.find({ experience: req.params.id}).populate('user', 'name email')
         res.status(200).json(bookings)
     } catch (err) {
         next(err)
@@ -32,7 +32,7 @@ router.patch('/:id/status', [authMiddleware, requireAdmin, experienceOwner], asy
     try {
         const booking = await Booking.findByIdAndUpdate( req.params.id, {status}, { new: true, runValidators: true}).populate('user', 'email')
 
-        if(!booking) return res.status.json({ error: 'Prenotazione non trovata' })
+        if(!booking) return res.status(400).json({ error: 'Prenotazione non trovata' })
     } catch (err) {
         next(err);
     }

@@ -1,4 +1,4 @@
-import User from "../models/userSchema"
+
 
 const requireAdmin = (req,res,next)=>  {
 

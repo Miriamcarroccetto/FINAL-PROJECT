@@ -1,0 +1,15 @@
+.experience-cover {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  object-position: 0% 0%;
+}
+
+.experience-card {
+  height: 100%;
+}
+
+.experience-link {
+  text-decoration: none;
+  color: inherit;
+}

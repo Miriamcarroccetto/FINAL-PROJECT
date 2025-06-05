@@ -11,7 +11,7 @@ router.get('/', async (req, res, next)=> {
 
     try {
         const experiences = await Experience.find()
-        res.send(experiences)
+        res.status(200).json(experiences)
     } catch (err) {
         next(err)
     }
@@ -24,7 +24,7 @@ router.get('/:id', async (req,res,next)=> {
     try {
         const experience = await Experience.findById(req.params.id)
         if(!experience) return res.status(404).json({error:'Esperienza non trovata'})
-            res.send(experience)
+            res.status(200).json(experience)
     } catch (err) {
         next(err)
     }
