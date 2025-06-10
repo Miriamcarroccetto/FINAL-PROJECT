@@ -7,6 +7,9 @@ import RegisterPage from './components/pages/RegisterPage';
 import {BrowserRouter,  Route, Routes } from 'react-router-dom';
 import AddExperience from './components/admin/AddExperience';
 import Experience from './components/blog/Experience';
+import CategoryExperienceList from './components/blog/experience-list/CategoryExperienceList';
+import BookingPage from './components/pages/BookingPage';
+import MyBookingsPage from './components/pages/MyBookingsPage';
 
 
 export default function App() {
@@ -53,6 +56,9 @@ export default function App() {
         <Route path="/" exact element={<Homepage/>}></Route>
         <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} fetchUsers={fetchUsers} />} />
          <Route path="/register" element={<RegisterPage setIsLoggedIn={setIsLoggedIn} fetchUsers={fetchUsers} />} />
+         <Route path='/experiences/category/:categoryName' element={<CategoryExperienceList/>}/>
+         <Route path='/bookings/:id' element={<BookingPage/>}/>
+         <Route path='/my-bookings' element={<MyBookingsPage/>}/>
       </Routes>
       <FooterWeb/>
     </BrowserRouter>

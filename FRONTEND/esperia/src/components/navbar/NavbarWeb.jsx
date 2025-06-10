@@ -50,28 +50,31 @@ function NavbarWeb() {
             )}
 
             {isAuthenticated() && (
-              <Nav.Link as={Link} to="/my-experiences"><IoMdMap /> Le tue esperienze</Nav.Link>
+              isAdmin() ? (
+                <Nav.Link as={Link} to="/admin/experiences/my-experiences">
+                  <IoMdMap /> Le tue esperienze
+                </Nav.Link>
+              ) : (
+                <Nav.Link as={Link} to="/my-bookings">
+                  <IoMdMap /> Le tue prenotazioni
+                </Nav.Link>
+              )
             )}
             <NavDropdown title="Categorie" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Cultura e tradizioni</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Gastronomia e degustazioni
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Natura e avventura</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.4"> Benessere e relax</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.5"> Arte e creatività</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.6"> Eventi e spettacoli</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.7">Avventure urbane</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.8">Sport e attività all’aperto</NavDropdown.Item>
+
+              <NavDropdown.Item as={Link} to="experiences/category/natura-e-avventura">Natura e avventura</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="experiences/category/benessere-e-relax"> Benessere e relax</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="experiences/category/arte-e-creatività"> Arte e creatività</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="experiences/category/eventi-e-spettacoli"> Eventi e spettacoli</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="experiences/category/avventure-urbane">Avventure urbane</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="experiences/category/sport-e-attività-all-aperto">Sport e attività all’aperto</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
 
         <Form inline={"true"}>
           <Row className="align-items-center">
-            <Col xs="auto">
-              <Form.Control type="text" placeholder="Cerca..." className="mr-sm-2" />
-            </Col>
+
             <Col>
               {isAuthenticated() ? (
                 <span className="d-flex align-items-center gap-2">

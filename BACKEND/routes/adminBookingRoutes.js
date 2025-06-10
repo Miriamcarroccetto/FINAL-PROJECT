@@ -12,7 +12,7 @@ const router = express.Router()
 router.get('/experience/:id', [authMiddleware, requireAdmin, experienceOwner], async (req, res, next)=> {
 
     try {
-        const bookings = await Booking.find({ experience: req.params.id}).populate('user', 'name email')
+        const bookings = await Booking.find({ experience: req.params.id}).populate('user', 'firstName lastName email').populate('experience', 'title')
         res.status(200).json(bookings)
     } catch (err) {
         next(err)

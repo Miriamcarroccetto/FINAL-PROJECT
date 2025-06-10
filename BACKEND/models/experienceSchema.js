@@ -2,7 +2,16 @@ import mongoose from "mongoose";
 
 const experienceSchema = new mongoose.Schema ({
     title: {type: String, required: true},
-    category: {type: String, required: true},
+    category: {type: String, required: true,
+        enum: [
+            "natura-e-avventura",
+            "benessere-e-relax",
+            "arte-e-creatività",
+            "eventi-e-spettacoli",
+            "avventure-urbane",
+            "sport-e-attività-all-aperto"
+        ]
+    },
     description: {type: String, required: true},
     city: {type: String, required: true},
     price: {type: Number, required: true},

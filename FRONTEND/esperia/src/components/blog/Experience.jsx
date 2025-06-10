@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Image } from "react-bootstrap";
+import { Button, Container, Image, Row, Col } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import ExperienceAuthor from './experience-author/ExperienceAuthor';
+import './style.css'
 
 export default function Experience() {
 
@@ -37,7 +38,10 @@ export default function Experience() {
     if (loading) {
         return <div>loading</div>
     }
-
+    
+    const handleBooking = () => {
+        navigate(`/bookings/${experience._id}`)
+    }
     return (
         <div className="experience-details-root">
             <Container>
@@ -51,11 +55,31 @@ export default function Experience() {
 
                 </div>
 
-                <div
+                 <Row className="experience-info">
+                    <Col md={6} lg={4} className="detail-item">
+                        <strong>Città:</strong> <span>{experience.city}</span>
+                    </Col>
+                    <Col md={6} lg={4} className="detail-item">
+                        <strong>Prezzo:</strong> <span>€{experience.price}</span>
+                    </Col>
+                    <Col md={6} lg={4} className="detail-item">
+                        <strong>Durata:</strong> <span>{experience.duration?.value} {experience.duration?.unit}</span>
+                    </Col>
+                    <Col md={6} lg={4} className="detail-item">
+                        <strong>Data:</strong> <span>{new Date(experience.date).toLocaleDateString()}</span>
+                    </Col>
+                    
+                </Row>
+
+                <div className='experience-description'
                     dangerouslySetInnerHTML={{
                         __html: experience.description,
                     }}
                 ></div>
+
+                <Button  className='btn experience-actions'  onClick={handleBooking}>
+                        Prenota
+                </Button>
             </Container>
         </div>
     );

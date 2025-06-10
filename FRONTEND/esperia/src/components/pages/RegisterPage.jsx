@@ -31,7 +31,7 @@ export default function RegisterPage() {
         setErrorMsg('')
         setSuccessMsg('')
         try {
-            const res = await fetch(`${process.env.VITE_APIURL}/users`, {
+            const res = await fetch(`${import.meta.env.VITE_APIURL}/users/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -107,7 +107,7 @@ export default function RegisterPage() {
                         required
                     />
                 </Form.Group>
-                <Button type="submit" variant="success" disabled={!formData.avatar}>
+                <Button type="submit" variant="success" >
                     Registrati
                 </Button>
 

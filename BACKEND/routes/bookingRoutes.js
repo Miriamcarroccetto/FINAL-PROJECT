@@ -65,7 +65,7 @@ router.get('/me', authMiddleware, async (req, res, next)=> {
 
     try {
         const bookings = await Booking.find({ user: req.user._id}).populate('experience')
-        res.status(20).json(bookings)
+        res.status(200).json(bookings)
     } catch (err) {
         next (err)
     }

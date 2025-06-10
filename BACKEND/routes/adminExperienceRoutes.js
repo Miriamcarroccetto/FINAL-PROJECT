@@ -6,6 +6,7 @@ import requireAdmin from '../middlewares/requireAdmin.js';
 import experienceOwner from "../middlewares/experienceOwner.js";
 import multer from 'multer'
 import { storageCloud } from "../utils/cloudinaryConfig.js"
+import slugify from 'slugify'
 
 const upload = multer({ storage: storageCloud })
 
@@ -35,8 +36,6 @@ router.post(
       if (!req.body) {
         return res.status(400).json({ message: "Body mancante" });
       }
-
-      // Parsing duration manuale
       let parsedDuration;
       try {
         parsedDuration = JSON.parse(req.body.duration);
@@ -56,13 +55,18 @@ router.post(
         date
       } = req.body;
 
+      const normalizedCategory = slugify(category, {
+        lower: true,
+        strict: true
+      })
+
       const imageUrl = req.file ? req.file.path : null;
       console.log(req.file)
 
       const newExperience = new Experience({
         user: req.user._id,
         title,
-        category,
+        category: normalizedCategory,
         description,
         city,
         price,
