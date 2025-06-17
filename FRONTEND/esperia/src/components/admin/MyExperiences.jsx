@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Card, Spinner, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import './style.css'
 
 export default function AdminExperiences() {
   const [experiences, setExperiences] = useState([]);
@@ -66,7 +67,8 @@ export default function AdminExperiences() {
   if (error) return <Alert variant="danger" className="m-5">{error}</Alert>;
 
   return (
-    <Container className="my-4">
+
+    <Container className="my-experiences">
       <h2>Le tue esperienze pubblicate</h2>
       <Button variant="primary" className="mb-3" onClick={() => navigate("/admin/experience/create")}>
         + Nuova esperienza

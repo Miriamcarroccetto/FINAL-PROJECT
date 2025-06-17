@@ -12,7 +12,7 @@ Piattaforma per la **prenotazione di esperienze locali autentiche** 🌍
 
 👤 Gli **utenti** possono:
 - Navigare tra le esperienze disponibili
-- Filtrare per località, data o categoria
+- Filtrare per categoria
 - Prenotare direttamente online
 
 🛠️ Gli **amministratori** possono:
@@ -35,7 +35,7 @@ Piattaforma per la **prenotazione di esperienze locali autentiche** 🌍
 ### 👥 UTENTE
 - 🔐 Registrazione e login
 - 🔎 Esplorazione esperienze disponibili
-- 🗂️ Filtri per località, categoria e data
+- 🗂️ Filtri per categoria
 - 📋 Visualizzazione dettagliata dell’esperienza
 - 🛒 Prenotazione dell’attività
 - 📊 Dashboard personale con storico prenotazioni

@@ -9,7 +9,7 @@ const experienceSchema = new mongoose.Schema ({
             "arte-e-creatività",
             "eventi-e-spettacoli",
             "avventure-urbane",
-            "sport-e-attività-all-aperto"
+           
         ]
     },
     description: {type: String, required: true},

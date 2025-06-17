@@ -134,7 +134,6 @@ const AddExperience = () => {
                         <option>Arte e creatività</option>
                         <option>Eventi e spettacoli</option>
                         <option>Avventure urbane</option>
-                        <option>Sport e attività all'aperto</option>
                     </Form.Select>
                 </Form.Group>
 

@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ExperienceItem from '../experience-item/ExperienceItem'
+import {Row, Col} from 'react-bootstrap';
 import './style.css'
 
 
@@ -20,21 +21,26 @@ export default function CategoryExperienceList() {
 
        const categoryLabels = {
     "natura-e-avventura": "Natura e Avventura",
-  "benessere-e-relax": "Benessere e Relax",
-  "arte-e-creativita": "Arte e Creatività",
-  "eventi-e-spettacoli": "Eventi e Spettacoli",
-  "avventure-urbane": "Avventure Urbane",
-  "sport-e-attivita-all-aperto": "Sport e Attività all'Aperto"
+    "benessere-e-relax": "Benessere e Relax",
+    "arte-e-creatività": "Arte e Creatività",
+    "eventi-e-spettacoli": "Eventi e Spettacoli",
+    "avventure-urbane": "Avventure Urbane"
 }
 
  const readableCategory = categoryLabels[categoryName] || categoryName
   return (
     
-    <div className="experience-list">
-      <h2>Categoria: {readableCategory}</h2>
-      {experiences.map(exp => (
-        <ExperienceItem key={exp._id} {...exp} />
-      ))}
+       <div className="experience-list">
+      <h2 className="mb-4 text-center">Categoria: {readableCategory}</h2>
+      <Row className="gy-4 justify-content-center">
+        {experiences.map(exp => (
+          <Col key={exp._id} xs={12} sm={6} md={4} lg={3}>
+            <ExperienceItem {...exp} />
+          </Col>
+        ))}
+      </Row>
     </div>
   )
 }
+
+

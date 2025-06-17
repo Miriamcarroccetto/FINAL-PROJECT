@@ -67,7 +67,6 @@ function NavbarWeb() {
               <NavDropdown.Item as={Link} to="experiences/category/arte-e-creatività"> Arte e creatività</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="experiences/category/eventi-e-spettacoli"> Eventi e spettacoli</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="experiences/category/avventure-urbane">Avventure urbane</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="experiences/category/sport-e-attività-all-aperto">Sport e attività all’aperto</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
