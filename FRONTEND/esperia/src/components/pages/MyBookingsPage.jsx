@@ -22,7 +22,7 @@ export default function MyBookingsPage() {
 
         fetch(`${import.meta.env.VITE_APIURL}/bookings/me`, {
             headers: {
-                "Authorization": `Bearer${token}`
+                "Authorization": `Bearer ${token}`
             }
         })
         .then(res=> {

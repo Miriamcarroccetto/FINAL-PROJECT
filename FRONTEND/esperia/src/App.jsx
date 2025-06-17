@@ -10,6 +10,7 @@ import Experience from './components/blog/Experience';
 import CategoryExperienceList from './components/blog/experience-list/CategoryExperienceList';
 import BookingPage from './components/pages/BookingPage';
 import MyBookingsPage from './components/pages/MyBookingsPage';
+import AdminExperiences from './components/admin/MyExperiences';
 
 
 export default function App() {
@@ -59,6 +60,7 @@ export default function App() {
          <Route path='/experiences/category/:categoryName' element={<CategoryExperienceList/>}/>
          <Route path='/bookings/:id' element={<BookingPage/>}/>
          <Route path='/my-bookings' element={<MyBookingsPage/>}/>
+         <Route path='/admin/experiences/my-experiences' element={<AdminExperiences/>}/>
       </Routes>
       <FooterWeb/>
     </BrowserRouter>

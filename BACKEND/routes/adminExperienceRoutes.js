@@ -46,7 +46,7 @@ router.post(
         return res.status(400).json({ message: "Durata non valida. Deve essere un oggetto JSON valido." });
       }
 
-      const {
+      let {
         title,
         category,
         description,
@@ -54,6 +54,15 @@ router.post(
         price,
         date
       } = req.body;
+
+      let parseDates
+      if(typeof date === 'string') {
+        parseDates = date.split(',').map(d => new Date(d.trim()))
+      } else if (Array.isArray(date)) {
+        parseDates = date.map(d => new Date(d))
+      } else {
+        return res.status(400).json({message: "Formato non valido"})
+      }
 
       const normalizedCategory = slugify(category, {
         lower: true,
@@ -70,7 +79,7 @@ router.post(
         description,
         city,
         price,
-        date,
+        date: parseDates,
         duration: parsedDuration,
         image: imageUrl,
       });
@@ -104,7 +113,17 @@ router.put('/:id', [authMiddleware, requireAdmin, experienceOwner, upload.single
     if (description) experience.description = description;
     if (city) experience.city = city;
     if (price) experience.price = price;
-    if (date) experience.date = date;
+    if (req.body.date) {
+      let updatedDates
+      if (typeof req.body.date === 'string') {
+        updatedDates = req.body.date.split(',').map(d => new Date(d.trim()))
+      } else if (Array.isArray(req.body.date)) {
+        updatedDates = req.body.date.map(d=> new Date(d))
+      } else {
+        return res.status(400).json({message: "Formato date non valido"})
+      }
+      experience.date = updatedDates
+    }
 
     
     if (duration) {

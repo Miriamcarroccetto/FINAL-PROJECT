@@ -8,6 +8,7 @@ import {
     Spinner,
     Alert
 } from 'react-bootstrap';
+import './style.css'
 
 export default function BookingPage() {
     const { id: experienceId } = useParams();
@@ -98,16 +99,29 @@ export default function BookingPage() {
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3">
-                        <Form.Label>Data prenotazione</Form.Label>
-                        <Form.Control
-                            type="date"
-                            name="bookingDate"
-                            value={formData.bookingDate}
-                            onChange={handleChange}
-                            min={new Date().toISOString().split("T")[0]}
-                            required
-                        />
+                        <Form.Label>Date disponibili</Form.Label>
+                        <div className="d-flex flex-wrap gap-2">
+                            {experience.date && experience.date.length > 0 ? (
+                                experience.date.map((date, idx) => {
+                                    const formatted = new Date(date).toLocaleDateString();
+                                    return (
+                                        <Button
+                                            key={idx}
+                                            variant="outline-primary"
+                                            className={`date-button ${formData.bookingDate === date ? "selected-date-button" : ""}`}
+                                            onClick={() => setFormData(prev => ({ ...prev, bookingDate: date }))}
+                                        >
+                                            {formatted}
+                                        </Button>
+
+                                    );
+                                })
+                            ) : (
+                                <p>Nessuna data disponibile.</p>
+                            )}
+                        </div>
                     </Form.Group>
+
 
                     <Form.Group className="mb-3">
                         <Form.Label>Messaggio (opzionale)</Form.Label>

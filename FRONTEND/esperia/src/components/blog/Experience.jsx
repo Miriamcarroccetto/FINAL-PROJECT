@@ -38,7 +38,7 @@ export default function Experience() {
     if (loading) {
         return <div>loading</div>
     }
-    
+
     const handleBooking = () => {
         navigate(`/bookings/${experience._id}`)
     }
@@ -55,7 +55,7 @@ export default function Experience() {
 
                 </div>
 
-                 <Row className="experience-info">
+                <Row className="experience-info">
                     <Col md={6} lg={4} className="detail-item">
                         <strong>Città:</strong> <span>{experience.city}</span>
                     </Col>
@@ -66,9 +66,11 @@ export default function Experience() {
                         <strong>Durata:</strong> <span>{experience.duration?.value} {experience.duration?.unit}</span>
                     </Col>
                     <Col md={6} lg={4} className="detail-item">
-                        <strong>Data:</strong> <span>{new Date(experience.date).toLocaleDateString()}</span>
+                        <strong>Date disponibili:</strong> <span> {Array.isArray(experience.date) && experience.date.length > 0
+                            ? experience.date.map(d => new Date(d).toLocaleDateString()).join(', ')
+                            : "Non specificate"}</span>
                     </Col>
-                    
+
                 </Row>
 
                 <div className='experience-description'
@@ -77,8 +79,8 @@ export default function Experience() {
                     }}
                 ></div>
 
-                <Button  className='btn experience-actions'  onClick={handleBooking}>
-                        Prenota
+                <Button className='btn experience-actions' onClick={handleBooking}>
+                    Prenota
                 </Button>
             </Container>
         </div>

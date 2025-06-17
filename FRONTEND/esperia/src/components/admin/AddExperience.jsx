@@ -10,7 +10,8 @@ const AddExperience = () => {
     const [durationValue, setDurationValue] = useState("");
     const [price, setPrice] = useState("");
     const [city, setCity] = useState("");
-    const [date, setDate] = useState("");
+    const [dates, setDates] = useState([]);
+    const [dateInput, setDateInput] = useState("")
     const [image, setImage] = useState("");
     const [currentUserId, setCurrentUserId] = useState("");
 
@@ -46,26 +47,32 @@ const AddExperience = () => {
             alert("Effettua il login prima di pubblicare.");
             return;
         }
-
-        const selectedDate = new Date(date)
-        const now = new Date()
-        if (selectedDate < now) {
-            alert("La data selezionata deve essere futura")
-            return
+        if (dates.length === 0) {
+            alert("Aggiungi almeno una data disponibile");
+            return;
         }
+
+        const now = new Date();
+        const allDatesValid = dates.every((d) => new Date(d) > now);
+        if (!allDatesValid) {
+            alert("Tutte le date devono essere future.");
+            return;
+        }
+
 
         const formData = new FormData();
         formData.append("title", title);
         formData.append("category", category);
         formData.append("description", description);
         formData.append("city", city);
-        formData.append("price", price);
-        formData.append("date", date);
+        formData.append("price", Number(price));
+        formData.append("date", dates.join(","))
         formData.append("duration", JSON.stringify({
             value: Number(durationValue),
             unit: durationUnit
         }));
         formData.append("image", image)
+        formData.append("user", currentUserId)
 
         try {
             const res = await fetch(`${import.meta.env.VITE_APIURL}/admin/experiences/`, {
@@ -91,7 +98,7 @@ const AddExperience = () => {
             setPrice("");
             setDurationUnit("");
             setDurationValue("");
-            setDate("");
+            setDates([]);
             setImage("");
         } catch (err) {
             console.error(err);
@@ -115,21 +122,20 @@ const AddExperience = () => {
 
                 <Form.Group className="mt-3">
                     <Form.Label>Categoria</Form.Label>
-                    <Form.Control
+                    <Form.Select
                         size="lg"
-                        as="select"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                         required
                     >
-                        <option value="">Categoria</option>
+                        <option value="" disabled hidden>Categoria</option>
                         <option>Natura e avventura</option>
                         <option>Benessere e relax</option>
                         <option>Arte e creatività</option>
                         <option>Eventi e spettacoli</option>
                         <option>Avventure urbane</option>
                         <option>Sport e attività all'aperto</option>
-                    </Form.Control>
+                    </Form.Select>
                 </Form.Group>
 
                 <Form.Group className="mt-3">
@@ -179,16 +185,15 @@ const AddExperience = () => {
                     </Col>
                     <Col>
                         <Form.Label>Unità</Form.Label>
-                        <Form.Control
-                            as="select"
+                        <Form.Select
                             value={durationUnit}
                             onChange={(e) => setDurationUnit(e.target.value)}
                             required
                         >
-                            <option value="">Unità</option>
+                            <option value="" disabled hidden>Unità</option>
                             <option>ore</option>
                             <option>giorni</option>
-                        </Form.Control>
+                        </Form.Select>
                     </Col>
 
                 </Row>
@@ -211,13 +216,40 @@ const AddExperience = () => {
 
 
                 <Form.Group className="mt-3">
-                    <Form.Label>Data</Form.Label>
-                    <Form.Control
-                        type="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                        required
-                    />
+                    <Form.Label>Date disponibili</Form.Label>
+                    <InputGroup>
+                        <Form.Control
+                            type="date"
+                            value={dateInput}
+                            onChange={(e) => setDateInput(e.target.value)}
+                        />
+                        <Button
+                            variant="outline-secondary"
+                            onClick={() => {
+                                if (dateInput && !dates.includes(dateInput)) {
+                                    setDates([...dates, dateInput].sort((a, b)=> new Date(a) - new Date(b)));
+                                    setDateInput("");
+                                }
+                            }}
+                        >
+                            Aggiungi
+                        </Button>
+                    </InputGroup>
+                    <div className="mt-2">
+                        {dates.map((d, idx) => (
+                            <Button
+                                key={idx}
+                                variant="outline-danger"
+                                size="sm"
+                                className="me-2 mt-2"
+                                onClick={() =>
+                                    setDates(dates.filter((date) => date !== d))
+                                }
+                            >
+                                {d} &times;
+                            </Button>
+                        ))}
+                    </div>
                 </Form.Group>
 
 
@@ -235,7 +267,8 @@ const AddExperience = () => {
                             setPrice("");
                             setDurationUnit("");
                             setDurationValue("");
-                            setDate("");
+                            setDates([]);
+                            setDateInput("")
                             setImage("");
                         }}
 

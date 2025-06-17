@@ -14,3 +14,15 @@
   margin-bottom: 50px;
   color: #f56038;
 }
+
+.date-button {
+  transition: all 0.2s ease-in-out;
+  box-decoration-break: 8px;
+}
+
+.selected-date-button {
+  background-color: crimson !important;
+  color: white !important;
+  border-color: crimson !important;
+  box-shadow: 0 0 5px rgba(13, 110, 253, 0.5) ;
+}
