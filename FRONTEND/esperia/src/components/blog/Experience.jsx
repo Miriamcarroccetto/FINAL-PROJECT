@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Container, Image, Row, Col } from "react-bootstrap";
+import { Button, Container, Image, Row, Col, Alert } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import ExperienceAuthor from './experience-author/ExperienceAuthor';
 import './style.css'
-import {jwtDecode} from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 
 export default function Experience() {
 
     const [experience, setExperience] = useState({});
     const [loading, setLoading] = useState(true);
+    const [loginAlert, setLoginAlert] = useState(false)
 
     const params = useParams();
     const navigate = useNavigate();
@@ -49,12 +50,26 @@ export default function Experience() {
     }
 
     const handleBooking = () => {
+
+        if (!token) {
+            setLoginAlert(true)
+            setTimeout(() =>{
+            navigate(`/login?redirect=/experience/${experience._id}`);
+        }, 1000);
+            return
+        }
         navigate(`/bookings/${experience._id}`)
     }
+
+
     return (
         <div className="experience-details-root">
             <Container>
+                 <Row className="mb-3">
+                 <Col xs={12} md={6}>
                 <Image className="experience-details-cover" src={experience.image} fluid />
+                </Col>
+                <Col xs={12} md={6} className="d-flex flex-column justify-content-center">
                 <h1 className="experience-details-title">{experience.title}</h1>
 
                 <div className="experience-details-container">
@@ -63,32 +78,40 @@ export default function Experience() {
                     </div>
 
                 </div>
+                </Col>
+                </Row>
 
                 <Row className="experience-info">
-                    <Col md={6} lg={4} className="detail-item">
+                    <Col xs={12} md={6} lg={3} className="detail-item">
                         <strong>Città:</strong> <span>{experience.city}</span>
                     </Col>
-                    <Col md={6} lg={4} className="detail-item">
+                     <Col xs={12} md={6} lg={3} className="detail-item">
                         <strong>Prezzo:</strong> <span>€{experience.price}</span>
                     </Col>
-                    <Col md={6} lg={4} className="detail-item">
+                     <Col xs={12} md={6} lg={3} className="detail-item">
                         <strong>Durata:</strong> <span>{experience.duration?.value} {experience.duration?.unit}</span>
                     </Col>
-                    <Col md={6} lg={4} className="detail-item">
+                     <Col xs={12} md={6} lg={3} className="detail-item">
                         <strong>Date disponibili:</strong> <span> {Array.isArray(experience.date) && experience.date.length > 0
                             ? experience.date.map(d => new Date(d).toLocaleDateString()).join(', ')
                             : "Non specificate"}</span>
                     </Col>
 
                 </Row>
-
+                <Row>
+                <Col xs={12}>
                 <div className='experience-description'
                     dangerouslySetInnerHTML={{
                         __html: experience.description,
                     }}
                 ></div>
+                </Col>
+                </Row>
 
-                {isAdmin? (
+                 <Row className="mt-4">
+                <Col xs={12} className="d-flex justify-content-center justify-content-md-start gap-2">
+               
+                {isAdmin ? (
                     <div className="experience-actions">
                         <Button
                             variant="warning"
@@ -121,10 +144,19 @@ export default function Experience() {
                         </Button>
                     </div>
                 ) : (
-                    <Button className="btn experience-actions" onClick={handleBooking}>
-                        Prenota
-                    </Button>
+                    <>
+                        {loginAlert && (
+                            <Alert variant="danger" onClose={() => setLoginAlert(false)} dismissible>
+                               Accedi per effettuare una prenotazione.
+                            </Alert>
+                        )}
+                        <Button className="btn experience-actions" onClick={handleBooking}>
+                            Prenota
+                        </Button>
+                    </>
                 )}
+                </Col>
+                </Row>
 
             </Container>
         </div>

@@ -87,7 +87,7 @@ export default function AdminExperiences() {
       ) : (
         <Row>
           {experiences.map(({ _id, title, city, price, image }) => (
-            <Col md={4} key={_id} className="mb-4">
+            <Col xs={12} sm={6} md={4} lg={3} key={_id} className="mb-4">
               <Card onClick={() => handleClick(_id)} style={{ cursor: 'pointer' }}>
                 <Card.Img variant="top" src={image} style={{ height: "180px", objectFit: "cover" }} />
                 <Card.Body>
@@ -96,6 +96,8 @@ export default function AdminExperiences() {
                     Città: {city} <br />
                     Prezzo: €{price}
                   </Card.Text>
+
+                  <div  className="d-flex flex-wrap gap-2">
                   <Button
                     variant="warning"
                     className="me-2"
@@ -117,6 +119,7 @@ export default function AdminExperiences() {
                   >
                     Gestisci Prenotazioni
                   </Button>
+                  </div>
 
                 </Card.Body>
               </Card>

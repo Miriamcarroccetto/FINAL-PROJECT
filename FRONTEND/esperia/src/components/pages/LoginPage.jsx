@@ -7,6 +7,10 @@ export default function LoginPage({ setIsLoggedIn, fetchUsers }) {
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  const params = new URLSearchParams(location.search)
+  const redirectPath = params.get('redirect') || '/home'
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -20,7 +24,7 @@ export default function LoginPage({ setIsLoggedIn, fetchUsers }) {
       localStorage.setItem('token', token);
       setIsLoggedIn(true);
       fetchUsers();
-      navigate('/home')
+      navigate(redirectPath)
 
     }
   }, [location, navigate, setIsLoggedIn, fetchUsers]);
@@ -55,11 +59,17 @@ export default function LoginPage({ setIsLoggedIn, fetchUsers }) {
         localStorage.setItem("token", data.token);
         setIsLoggedIn(true);
         fetchUsers();
+
+        if(data.user?.isAdmin) {
+           return navigate("/admin/experiences/my-experiences")
+        } else {
+          return navigate(redirectPath)
+        }
       } else {
         console.warn("Nessun token ricevuto dal backend");
       }
 
-      navigate('/home');
+      navigate(redirectPath);
 
     } catch (err) {
       setErrorMsg(err.message);
@@ -96,7 +106,7 @@ export default function LoginPage({ setIsLoggedIn, fetchUsers }) {
       </p>
 
       <p className="mt-3">
-        <a href="http://localhost:3001/users/auth/googlelogin">Accedi con Google</a>
+        <a href={`http://localhost:3001/users/auth/googlelogin?redirect=${redirectPath}`}>Accedi con Google</a>
       </p>
 
     </Container>

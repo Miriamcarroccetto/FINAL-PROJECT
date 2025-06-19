@@ -109,6 +109,9 @@ const AddExperience = () => {
     return (
         <Container className="new-blog-container">
             <Form className="mt-5" onSubmit={handleSubmit}>
+
+                <Row>
+                    <Col xs={12} md={6}>
                 <Form.Group className="mt-3">
                     <Form.Label>Titolo</Form.Label>
                     <Form.Control
@@ -119,7 +122,9 @@ const AddExperience = () => {
                         required
                     />
                 </Form.Group>
-
+                </Col>
+                 
+                 <Col xs={12} md={6}>
                 <Form.Group className="mt-3">
                     <Form.Label>Categoria</Form.Label>
                     <Form.Select
@@ -136,7 +141,8 @@ const AddExperience = () => {
                         <option>Avventure urbane</option>
                     </Form.Select>
                 </Form.Group>
-
+                </Col>
+                  <Col xs={12} md={6}>
                 <Form.Group className="mt-3">
                     <Form.Label>Immagine Copertina</Form.Label>
                     <Form.Control
@@ -145,7 +151,10 @@ const AddExperience = () => {
                         onChange={(e) => setImage(e.target.files[0])}
                     />
                 </Form.Group>
+                </Col>
 
+
+                <Col xs={12} md={6}>
                 <Form.Group className="mt-3">
                     <Form.Label>Città</Form.Label>
                     <Form.Control
@@ -156,9 +165,10 @@ const AddExperience = () => {
                         required
                     />
                 </Form.Group>
+                </Col>
 
 
-
+                <Col xs={12} md={6}>
                 <Form.Group className="mt-3">
                     <Form.Label>Descrizione dell'attività</Form.Label>
                     <Form.Control
@@ -170,9 +180,12 @@ const AddExperience = () => {
                         required
                     />
                 </Form.Group>
+                </Col>
 
-                <Row>
-                    <Col>
+                
+
+            
+                     <Col xs={12} md={6}>
                         <Form.Label>Durata</Form.Label>
                         <Form.Control
                             type="number"
@@ -182,7 +195,7 @@ const AddExperience = () => {
                             required
                         />
                     </Col>
-                    <Col>
+                    <Col xs={12} md={6}>
                         <Form.Label>Unità</Form.Label>
                         <Form.Select
                             value={durationUnit}
@@ -195,8 +208,8 @@ const AddExperience = () => {
                         </Form.Select>
                     </Col>
 
-                </Row>
-
+                
+                  <Col xs={12} md={6}>
                 <Form.Group className="mt-3">
                     <Form.Label>Prezzo</Form.Label>
                     <InputGroup>
@@ -212,8 +225,9 @@ const AddExperience = () => {
                         <InputGroup.Text>€</InputGroup.Text>
                     </InputGroup>
                 </Form.Group>
+                </Col>
 
-
+                <Col xs={12} md={6}>
                 <Form.Group className="mt-3">
                     <Form.Label>Date disponibili</Form.Label>
                     <InputGroup>
@@ -250,9 +264,10 @@ const AddExperience = () => {
                         ))}
                     </div>
                 </Form.Group>
+                </Col>
 
 
-
+                <Col xs={12} md={6}>
                 <Form.Group className="d-flex mt-4 justify-content-end">
                     <Button
                         type="button"
@@ -284,6 +299,9 @@ const AddExperience = () => {
                         Invia
                     </Button>
                 </Form.Group>
+                </Col>
+
+                </Row>
             </Form>
         </Container >
     );

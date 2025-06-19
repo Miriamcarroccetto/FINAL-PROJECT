@@ -81,13 +81,13 @@ export default function AdminBookingsPage() {
       {bookings.map((booking) => (
         <Card key={booking._id} className="mb-3">
           <Card.Body>
-            <Row className="mb-2">
-              <Col md={8}>
+            <Row className="mb-2 align-items-center">
+              <Col xs={12} md={8}>
                 <Card.Title>
                   {booking.user.firstName} {booking.user.lastName} ({booking.user.email})
                 </Card.Title>
               </Col>
-              <Col md={4} className="text-md-end">
+              <Col xs={12} md={4} className="text-md-end mt-2 mt-md-0">
                 <Form.Select
                   value={booking.status}
                   onChange={(e) => handleChangeStatus(booking._id, e.target.value)}

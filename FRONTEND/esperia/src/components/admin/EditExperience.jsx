@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Form, Button, InputGroup } from 'react-bootstrap';
+import { Container, Form, Button, InputGroup, Row, Col } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 
 
@@ -82,7 +82,7 @@ export default function EditExperience() {
 
     if (!experience) return <div>Caricamento...</div>
     return (
-        <Container>
+        <Container className='mt-5 pt-5'>
             <h2>Modifica Esperienza</h2>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
@@ -145,62 +145,76 @@ export default function EditExperience() {
                     />
                 </Form.Group>
 
+                <Row className="mb-3">
+                    <Col xs={6}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Durata (valore)</Form.Label>
+                            <Form.Control
+                                name="durationValue"
+                                type="number"
+                                value={experience.duration?.value || ""}
+                                onChange={(e) =>
+                                    setExperience((prev) => ({
+                                        ...prev,
+                                        duration: {
+                                            ...prev.duration,
+                                            value: e.target.value,
+                                        },
+                                    }))
+                                }
+                            />
+                        </Form.Group>
+                    </Col>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Durata (valore)</Form.Label>
-                    <Form.Control
-                        name="durationValue"
-                        type="number"
-                        value={experience.duration?.value || ""}
-                        onChange={(e) =>
-                            setExperience((prev) => ({
-                                ...prev,
-                                duration: {
-                                    ...prev.duration,
-                                    value: e.target.value,
-                                },
-                            }))
-                        }
-                    />
-                </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Durata (unità)</Form.Label>
-                    <Form.Control
-                        name="durationUnit"
-                        value={experience.duration?.unit || ""}
-                        onChange={(e) =>
-                            setExperience((prev) => ({
-                                ...prev,
-                                duration: {
-                                    ...prev.duration,
-                                    unit: e.target.value,
-                                },
-                            }))
-                        }
-                    />
-                </Form.Group>
+                    <Col xs={6}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Durata (unità)</Form.Label>
+                            <Form.Control
+                                name="durationUnit"
+                                value={experience.duration?.unit || ""}
+                                onChange={(e) =>
+                                    setExperience((prev) => ({
+                                        ...prev,
+                                        duration: {
+                                            ...prev.duration,
+                                            unit: e.target.value,
+                                        },
+                                    }))
+                                }
+                            />
+                        </Form.Group>
+                    </Col>
+                </Row>
 
                 <Form.Group className="mt-3">
                     <Form.Label>Date disponibili</Form.Label>
-                    <InputGroup>
-                        <Form.Control
-                            type="date"
-                            value={dateInput}
-                            onChange={(e) => setDateInput(e.target.value)}
-                        />
-                        <Button
-                            variant="outline-secondary"
-                            onClick={() => {
-                                if (dateInput && !dates.includes(dateInput)) {
-                                    setDates([...dates, dateInput].sort((a, b) => new Date(a) - new Date(b)));
-                                    setDateInput("");
-                                }
-                            }}
-                        >
-                            Aggiungi
-                        </Button>
-                    </InputGroup>
+                    <Row className="align-items-center">
+
+                        <InputGroup>
+                            <Col xs={8} sm={9}>
+                                <Form.Control
+                                    type="date"
+                                    value={dateInput}
+                                    onChange={(e) => setDateInput(e.target.value)}
+                                />
+                            </Col>
+
+                            <Col xs={4} sm={3}>
+                                <Button
+                                    variant="outline-secondary"
+                                    onClick={() => {
+                                        if (dateInput && !dates.includes(dateInput)) {
+                                            setDates([...dates, dateInput].sort((a, b) => new Date(a) - new Date(b)));
+                                            setDateInput("");
+                                        }
+                                    }}
+                                >
+                                    Aggiungi
+                                </Button>
+                            </Col>
+                        </InputGroup>
+                    </Row>
                     <div className="mt-2">
                         {dates.map((d, idx) => (
                             <Button
@@ -248,8 +262,12 @@ export default function EditExperience() {
 
 
 
-                <Button type="submit">Salva modifiche</Button>
-                <Button variant='secondary' className='ms-2' onClick={() => navigate((`/admin/experiences/my-experiences`))} >Annulla</Button>
+                <div className="d-flex flex-column flex-sm-row gap-2">
+                    <Button type="submit" >
+                        Salva modifiche
+                    </Button>
+                    <Button variant='secondary' className='ms-2 ' onClick={() => navigate((`/admin/experiences/my-experiences`))} >Annulla</Button>
+                </div>
             </Form>
         </Container>
     );

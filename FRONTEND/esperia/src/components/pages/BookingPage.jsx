@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import {
-    Container,
-    Form,
-    Button,
-    Card,
-    Spinner,
-    Alert
-} from 'react-bootstrap';
+import {Container, Form, Button, Card, Spinner, Alert, Row, Col} from 'react-bootstrap';
 import './style.css'
 
 export default function BookingPage() {
@@ -19,6 +12,7 @@ export default function BookingPage() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
+   
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -40,7 +34,7 @@ export default function BookingPage() {
         e.preventDefault();
 
         if (!formData.bookingDate) {
-            setError("Devi selezionare una data per la prenotazione.");
+            setError("Seleziona una data");
             return;
         }
 
@@ -97,7 +91,10 @@ export default function BookingPage() {
             <Card className="p-4 shadow-sm">
                 <h2 className="mb-4">Prenota: {experience.title}</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
+
                 <Form onSubmit={handleSubmit}>
+                    <Row className='mb-2'>
+                        <Col xs={12}>
                     <Form.Group className="mb-3">
                         <Form.Label>Date disponibili</Form.Label>
                         <div className="d-flex flex-wrap gap-2">
@@ -121,8 +118,11 @@ export default function BookingPage() {
                             )}
                         </div>
                     </Form.Group>
+                    </Col>
+                    </Row>
 
-
+                    <Row className="mb-3">
+                        <Col xs={12} md={8}>
                     <Form.Group className="mb-3">
                         <Form.Label>Messaggio (opzionale)</Form.Label>
                         <Form.Control
@@ -134,10 +134,16 @@ export default function BookingPage() {
                             placeholder="Scrivi un messaggio per l’host..."
                         />
                     </Form.Group>
+                    </Col>
+                    </Row>
 
+                      <Row>
+                        <Col xs={12} md={4}>
                     <Button variant="primary" type="submit" disabled={isSubmitting}>
                         {isSubmitting ? "Invio in corso..." : "Conferma prenotazione"}
                     </Button>
+                    </Col>
+                    </Row>
                 </Form>
             </Card>
         </Container>

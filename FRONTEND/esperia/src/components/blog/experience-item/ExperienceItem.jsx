@@ -9,16 +9,26 @@ export default function ExperienceItem({ title, image, user, _id, price, duratio
 
   return (
     <Link to={`/experience/${_id}`} className="experience-link">
-      <Card className="experience-card">
+      <Card className="experience-card h-100">
         <Card.Img variant="top" src={image} className="experience-cover" />
-        <Card.Body>
-          <Card.Title>{title}</Card.Title>
-          <Row>
-            <Col className="experience-info">
-              <p><strong>Città:</strong> {city}</p>
-              <p><strong>Prezzo:</strong> €{price}</p>
-              <p><strong>Durata:</strong> {duration.value} {duration.unit}</p>
-              <p><strong>Date disponibili:</strong> {
+        <Card.Body className="d-flex flex-column">
+          <Card.Title  className="fs-5 text-truncate">{title}</Card.Title>
+          <Row className='mt-3 experience-info'>
+
+            <Col xs={12} md={6} lg={6} >
+              <p className="mb-1"><strong>Città:</strong> {city}</p>
+              </Col>
+
+              <Col xs={12} md={6} lg={6} >
+              <p className="mb-1"><strong>Prezzo:</strong> €{price}</p>
+              </Col>
+
+               <Col xs={12} md={6} lg={6} >
+              <p className="mb-1"><strong>Durata:</strong> {duration.value} {duration.unit}</p>
+              </Col>
+
+              <Col xs={12} md={6} lg={6} >
+              <p className="mb-1"><strong>Date disponibili:</strong> {
                 Array.isArray(date) && date.length > 0
                   ? date.slice(0, 3).map(d => new Date(d).toLocaleDateString()).join(', ')
                   : "Non specificate"
@@ -29,7 +39,7 @@ export default function ExperienceItem({ title, image, user, _id, price, duratio
 
           </Row>
         </Card.Body>
-        <Card.Footer>
+        <Card.Footer className="bg-light border-0">
           <ExperienceAuthor {...user} />
         </Card.Footer>
       </Card>

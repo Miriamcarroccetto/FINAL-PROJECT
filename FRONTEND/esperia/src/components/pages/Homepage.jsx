@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import { Container, FormControl} from 'react-bootstrap';
+import { Container, FormControl, Row, Col} from 'react-bootstrap';
 import logo from '../assets/logo.png';
 import ExperienceList from '../blog/experience-list/ExperienceList';
 import './style.css'
@@ -24,17 +24,30 @@ export default function Homepage() {
   
 
   return (
-   <Container fluid="sm">
-      <h1 className="blog-main-title mb-3">ESPERIA- Esperienze vere, emozioni locali</h1>
+   <Container  className="py-4" fluid="sm">
+    <Row className="mb-3">
+        <Col xs={12}>
+      <h1 className="blog-main-title mb-3">ESPERIA- Esperienze locali, emozioni vere</h1>
+      </Col>
+      </Row>
+
+      <Row className="justify-content-center mb-4">
+        <Col xs={10} sm={8} md={6} lg={4}>
        <FormControl
         type="search"
         placeholder="Cerca Esperienza..."
         value={searchQuery}
         onChange={handleSearchChange}
-        className="mb-4"
-        style={{ width: "250px" }}
+        
       />
+      </Col>
+       </Row>
+
+       <Row>
+        <Col>
       <ExperienceList searchQuery={searchQuery}/>
+      </Col>
+      </Row>
     </Container>
   );
 };
