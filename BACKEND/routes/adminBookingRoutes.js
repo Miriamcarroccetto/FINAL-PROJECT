@@ -3,6 +3,7 @@ import authMiddleware from '../middlewares/authMiddleware.js';
 import requireAdmin from '../middlewares/requireAdmin.js';
 import experienceOwner from '../middlewares/experienceOwner.js';
 import Booking from '../models/bookingSchema.js';
+import bookingOwnerExperience from '../middlewares/bookingOwnerExperience.js';
 
 const router = express.Router()
 
@@ -21,7 +22,7 @@ router.get('/experience/:id', [authMiddleware, requireAdmin, experienceOwner], a
 
 //MODIFICA STATO DI PRENOTAZIONE
 
-router.patch('/:id/status', [authMiddleware, requireAdmin, experienceOwner], async(req,res, next) => {
+router.patch('/:id/status', [authMiddleware, requireAdmin, bookingOwnerExperience], async(req,res, next) => {
 
     const {status}= req.body
 
@@ -33,6 +34,8 @@ router.patch('/:id/status', [authMiddleware, requireAdmin, experienceOwner], asy
         const booking = await Booking.findByIdAndUpdate( req.params.id, {status}, { new: true, runValidators: true}).populate('user', 'email')
 
         if(!booking) return res.status(400).json({ error: 'Prenotazione non trovata' })
+
+            return res.status(200).json(booking); 
     } catch (err) {
         next(err);
     }

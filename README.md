@@ -27,7 +27,7 @@ Piattaforma per la **prenotazione di esperienze locali autentiche** 🌍
 - 🔐 Gestione completa di **autenticazione** e **autorizzazione**  
 - 📅 Sistema di **prenotazione** e gestione esperienze  
 - 🧩 Coerenza, **validazione** e **sicurezza** dei dati  
-- 🧱 Architettura **modulare e manutenibile**
+
 
 
 ## ⚙️ FUNZIONALITÀ PRINCIPALI

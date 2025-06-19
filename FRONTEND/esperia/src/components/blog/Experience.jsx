@@ -3,13 +3,22 @@ import { Button, Container, Image, Row, Col } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import ExperienceAuthor from './experience-author/ExperienceAuthor';
 import './style.css'
+import {jwtDecode} from 'jwt-decode'
 
 export default function Experience() {
 
     const [experience, setExperience] = useState({});
     const [loading, setLoading] = useState(true);
+
     const params = useParams();
     const navigate = useNavigate();
+
+    const token = localStorage.getItem("token")
+    let isAdmin = false
+    if (token) {
+        const decoded = jwtDecode(token)
+        isAdmin = decoded.isAdmin
+    }
 
     useEffect(() => {
 
@@ -79,9 +88,44 @@ export default function Experience() {
                     }}
                 ></div>
 
-                <Button className='btn experience-actions' onClick={handleBooking}>
-                    Prenota
-                </Button>
+                {isAdmin? (
+                    <div className="experience-actions">
+                        <Button
+                            variant="warning"
+                            className="me-2"
+                            onClick={() => navigate(`/admin/experiences/${experience._id}`)}
+                        >
+                            Modifica
+                        </Button>
+                        <Button
+                            variant="danger"
+                            onClick={async () => {
+                                if (window.confirm("Sei sicuro di voler eliminare questa esperienza?")) {
+                                    const token = localStorage.getItem("token");
+                                    const res = await fetch(`${import.meta.env.VITE_APIURL}/admin/experiences/${experience._id}`, {
+                                        method: "DELETE",
+                                        headers: {
+                                            Authorization: `Bearer ${token}`,
+                                        },
+                                    });
+                                    if (res.ok) {
+                                        alert("Esperienza eliminata");
+                                        navigate("/admin/experiences/my-experiences");
+                                    } else {
+                                        alert("Errore durante l'eliminazione");
+                                    }
+                                }
+                            }}
+                        >
+                            Elimina
+                        </Button>
+                    </div>
+                ) : (
+                    <Button className="btn experience-actions" onClick={handleBooking}>
+                        Prenota
+                    </Button>
+                )}
+
             </Container>
         </div>
     );

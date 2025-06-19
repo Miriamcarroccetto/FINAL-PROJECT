@@ -26,3 +26,52 @@
   border-color: crimson !important;
   box-shadow: 0 0 5px rgba(13, 110, 253, 0.5) ;
 }
+
+.bookings-page {
+    max-width: 960px;
+  margin: 100px auto 40px;
+  padding: 2rem;
+  background-color: #fffaf0;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+}
+
+.bookings-page h2 {
+  color: #5a493a;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.bookings-page .card {
+  border: none;
+  border-radius: 14px;
+  background-color: #f7ebc3;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.bookings-page .card:hover {
+  transform: scale(1.01);
+}
+
+.bookings-page .card-title {
+  color: #2a2a2a;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.bookings-page .card-text {
+  color: #3e3e3e;
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+
+.bookings-page .alert-info {
+  background-color: #fff9e5;
+  border-color: #f7ebc3;
+  color: #5a493a;
+  font-weight: 500;
+  border-radius: 12px;
+}

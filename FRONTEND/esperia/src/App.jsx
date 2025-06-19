@@ -12,6 +12,7 @@ import BookingPage from './components/pages/BookingPage';
 import MyBookingsPage from './components/pages/MyBookingsPage';
 import AdminExperiences from './components/admin/MyExperiences';
 import EditExperience from './components/admin/EditExperience';
+import AdminBookingsPage from './components/admin/pages/AdminBookingsPage';
 
 
 export default function App() {
@@ -62,7 +63,8 @@ export default function App() {
          <Route path='/bookings/:id' element={<BookingPage/>}/>
          <Route path='/my-bookings' element={<MyBookingsPage/>}/>
          <Route path='/admin/experiences/my-experiences' element={<AdminExperiences/>}/>
-         <Route path='/admin/experience/edit/:id' element={<EditExperience/>}/>
+         <Route path='/admin/experiences/:id' element={<EditExperience/>}/>
+          <Route path="/admin/bookings/:experienceId" element={<AdminBookingsPage />} />
       </Routes>
       <FooterWeb/>
     </BrowserRouter>

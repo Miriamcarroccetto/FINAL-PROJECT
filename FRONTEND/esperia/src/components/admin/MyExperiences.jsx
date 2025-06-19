@@ -41,6 +41,10 @@ export default function AdminExperiences() {
     fetchExperiences();
   }, [token, navigate]);
 
+  const handleClick = (id) => {
+    navigate(`/experience/${id}`)
+  }
+
   const handleDelete = async (id) => {
     if (!window.confirm("Sei sicuro di voler eliminare questa esperienza?")) return;
 
@@ -54,9 +58,14 @@ export default function AdminExperiences() {
 
       if (!res.ok) {
         throw new Error("Errore durante la cancellazione");
+       
       }
 
+      navigate("/admin/experiences/my-experiences")
+
       setExperiences((prev) => prev.filter((exp) => exp._id !== id));
+      
+    
     } catch (err) {
       alert(err.message);
     }
@@ -70,7 +79,7 @@ export default function AdminExperiences() {
 
     <Container className="my-experiences">
       <h2>Le tue esperienze pubblicate</h2>
-      <Button variant="primary" className="mb-3" onClick={() => navigate("/admin/experience/create")}>
+      <Button variant="primary" className="mb-3" onClick={() => navigate("/new")}>
         + Nuova esperienza
       </Button>
       {experiences.length === 0 ? (
@@ -79,7 +88,7 @@ export default function AdminExperiences() {
         <Row>
           {experiences.map(({ _id, title, city, price, image }) => (
             <Col md={4} key={_id} className="mb-4">
-              <Card>
+              <Card onClick={() => handleClick(_id)} style={{ cursor: 'pointer' }}>
                 <Card.Img variant="top" src={image} style={{ height: "180px", objectFit: "cover" }} />
                 <Card.Body>
                   <Card.Title>{title}</Card.Title>
@@ -90,13 +99,25 @@ export default function AdminExperiences() {
                   <Button
                     variant="warning"
                     className="me-2"
-                    onClick={() => navigate(`/admin/experience/edit/${_id}`)}
+                    onClick={() => navigate(`/admin/experiences/${_id}`)}
                   >
                     Modifica
                   </Button>
-                  <Button variant="danger" onClick={() => handleDelete(_id)}>
+                  <Button variant="danger" onClick={(e) =>  { e.stopPropagation(); handleDelete(_id)}}>
                     Elimina
                   </Button>
+
+                  <Button
+                    variant="info"
+                    className="me-2"
+                    onClick={(e) => {
+                      e.stopPropagation(); 
+                      navigate(`/admin/bookings/${_id}`);
+                    }}
+                  >
+                    Gestisci Prenotazioni
+                  </Button>
+
                 </Card.Body>
               </Card>
             </Col>
