@@ -22,7 +22,6 @@ export default function CategoryExperienceList() {
        const categoryLabels = {
     "natura-e-avventura": "Natura e Avventura",
     "benessere-e-relax": "Benessere e Relax",
-    "arte-e-creatività": "Arte e Creatività",
     "eventi-e-spettacoli": "Eventi e Spettacoli",
     "avventure-urbane": "Avventure Urbane"
 }
@@ -31,7 +30,7 @@ export default function CategoryExperienceList() {
   return (
     
        <div className="experience-list">
-      <h2 className="mb-4 text-center">Categoria: {readableCategory}</h2>
+      <h2 className="mb-4 text-center">{readableCategory}</h2>
       <Row className="gy-4 justify-content-center">
         {experiences.map(exp => (
           <Col key={exp._id} xs={12} sm={6} md={4} lg={3}>

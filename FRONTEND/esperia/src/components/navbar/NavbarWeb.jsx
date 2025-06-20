@@ -1,5 +1,4 @@
-import { Container, Nav, Navbar, NavDropdown, Form, Button, Col, Row } from 'react-bootstrap';
-import logo from '../assets/logo.png';
+import { Container, Nav, Navbar, NavDropdown, Form, Col, Row } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import '../navbar/navbarWeb.css';
 import { IoPersonCircleOutline } from "react-icons/io5";
@@ -8,30 +7,22 @@ import {
   GiForestCamp, GiMeditation, GiPaintBrush, GiMusicalNotes, GiCityCar,
 } from "react-icons/gi";
 
-import { isAuthenticated, isAdmin, parseToken, logout } from '../../utils/auth';
-import { useEffect, useState } from 'react';
-
-
-
-
+import { useAuth } from '../../utils/AuthProvider';
 
 function NavbarWeb() {
-
-  const navigate = useNavigate()
-  const [user, setUser] = useState(null)
-
-  useEffect(() => {
-    const parsed = parseToken()
-    setUser(parsed)
-  }, [])
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout()
-    setUser(null)
-    navigate('/home')
-  }
+    logout();
+    navigate('/home');
+  };
+
+  const isAuthenticated = !!user;
+  const isAdmin = user?.isAdmin;
+
   return (
-    <Navbar fixed='top' expand="lg" className="my-navbar">
+    <Navbar expand="lg" className="my-navbar">
       <Container>
         <Navbar.Brand as={Link} to='/home'>
           <h1>ESPERIA</h1>
@@ -39,18 +30,14 @@ function NavbarWeb() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-
-            {(!user || !user?.isAdmin) && (
+            {(!isAuthenticated || !isAdmin) && (
               <Nav.Link as={Link} to='/home'>
                 <IoMdHome className='navbar-icon' />
               </Nav.Link>
             )}
 
-
-
-
-            {isAuthenticated() && (
-              isAdmin() ? (
+            {isAuthenticated && (
+              isAdmin ? (
                 <Nav.Link as={Link} to="/admin/experiences/my-experiences">
                   <IoMdMap className='navbar-icon' /> Gestione esperienze
                 </Nav.Link>
@@ -60,29 +47,30 @@ function NavbarWeb() {
                 </Nav.Link>
               )
             )}
-            <NavDropdown title="Categorie" id="basic-nav-dropdown">
 
+            <NavDropdown title="Categorie" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="experiences/category/natura-e-avventura">
-                <GiForestCamp className="me-2" />Natura e avventura</NavDropdown.Item>
+                <GiForestCamp className="me-2" /> Natura e avventura
+              </NavDropdown.Item>
               <NavDropdown.Item as={Link} to="experiences/category/benessere-e-relax">
-                <GiMeditation className="me-2" /> Benessere e relax</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="experiences/category/arte-e-creatività">
-                <GiPaintBrush className="me-2" />Arte e creatività</NavDropdown.Item>
+                <GiMeditation className="me-2" /> Benessere e relax
+              </NavDropdown.Item>
               <NavDropdown.Item as={Link} to="experiences/category/eventi-e-spettacoli">
-                <GiMusicalNotes className="me-2" />Eventi e spettacoli</NavDropdown.Item>
+                <GiMusicalNotes className="me-2" /> Eventi e spettacoli
+              </NavDropdown.Item>
               <NavDropdown.Item as={Link} to="experiences/category/avventure-urbane">
-                <GiCityCar className="me-2" />Avventure urbane</NavDropdown.Item>
+                <GiCityCar className="me-2" /> Avventure urbane
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
 
         <Form inline={"true"}>
           <Row className="d-flex align-items-center gap-3">
-
             <Col>
-              {isAuthenticated() ? (
+              {isAuthenticated ? (
                 <div className="d-flex flex-column align-items-start text-start">
-                  <span className="welcome-text">Benvenuto </span>
+                  <span className="welcome-text">Benvenuto</span>
                   <span className="d-flex align-items-center gap-2">
                     <span>{user?.name}</span>
                     <span style={{ fontSize: "1.2rem" }}>
@@ -90,7 +78,6 @@ function NavbarWeb() {
                     </span>
                   </span>
                 </div>
-
               ) : (
                 <Link to="/login">
                   <IoPersonCircleOutline className="navbar-icon" />
@@ -98,7 +85,7 @@ function NavbarWeb() {
               )}
             </Col>
             <Col>
-              {isAuthenticated() && (
+              {isAuthenticated && (
                 <IoMdLogOut className='navbar-icon' onClick={handleLogout} />
               )}
             </Col>

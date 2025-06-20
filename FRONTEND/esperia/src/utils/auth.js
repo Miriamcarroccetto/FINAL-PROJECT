@@ -4,8 +4,15 @@ export const parseToken = () => {
     try {
         const token = getToken()
         if(!token) return null
-        return JSON.parse(atob(token.split('.')[1]))
+
+        const parts = token.split('.')
+        if (parts.length !== 3) return null
+
+       const payload = JSON.parse(atob(parts[1]))
+       return payload
+
     } catch (err) {
+        console.error("Token parsing failed:", err)
         return null
     }
 }

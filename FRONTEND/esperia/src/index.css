@@ -3,9 +3,9 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: #212529;
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  color-scheme: light;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,9 +24,10 @@ a:hover {
 
 body {
   margin: 0;
-  min-width: 320px;
+  padding: 0;
   min-height: 100vh;
-  background-color: #242424;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 h1 {

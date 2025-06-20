@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
 import "../pages/style.css";
+import { useAuth } from '../../utils/AuthProvider';
 
 export default function LoginPage({ setIsLoggedIn, fetchUsers }) {
 
+  const { login } = useAuth()
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -56,12 +58,12 @@ export default function LoginPage({ setIsLoggedIn, fetchUsers }) {
       }
 
       if (data.token) {
-        localStorage.setItem("token", data.token);
-        setIsLoggedIn(true);
+        login(data.token);
         fetchUsers();
 
-        if(data.user?.isAdmin) {
-           return navigate("/admin/experiences/my-experiences")
+
+        if (data.user?.isAdmin) {
+          return navigate("/admin/experiences/my-experiences")
         } else {
           return navigate(redirectPath)
         }
@@ -77,7 +79,7 @@ export default function LoginPage({ setIsLoggedIn, fetchUsers }) {
   };
 
   return (
-    
+
     <Container className="page-container mt-5 pt-5" style={{ maxWidth: '400px' }}>
       <h2>Login</h2>
       {errorMsg && <Alert variant="danger">{errorMsg}</Alert>}
@@ -110,7 +112,7 @@ export default function LoginPage({ setIsLoggedIn, fetchUsers }) {
       </p>
 
     </Container>
-    
+
   )
 }
 

@@ -6,7 +6,6 @@ const experienceSchema = new mongoose.Schema ({
         enum: [
             "natura-e-avventura",
             "benessere-e-relax",
-            "arte-e-creatività",
             "eventi-e-spettacoli",
             "avventure-urbane",
            

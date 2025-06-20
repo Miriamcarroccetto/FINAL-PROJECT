@@ -146,7 +146,7 @@ export default function Experience() {
                 ) : (
                     <>
                         {loginAlert && (
-                            <Alert variant="danger" onClose={() => setLoginAlert(false)} dismissible>
+                            <Alert variant="danger" onClose={() => setLoginAlert(false)} >
                                Accedi per effettuare una prenotazione.
                             </Alert>
                         )}

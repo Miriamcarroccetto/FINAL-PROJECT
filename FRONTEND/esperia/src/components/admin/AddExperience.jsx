@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Container, Form, Row, Col, InputGroup, FormControl } from "react-bootstrap";
+import { Button, Container, Form, Row, Col, InputGroup, FormControl, Alert } from "react-bootstrap";
 import "../admin/style.css";
 
 const AddExperience = () => {
@@ -14,6 +14,9 @@ const AddExperience = () => {
     const [dateInput, setDateInput] = useState("")
     const [image, setImage] = useState("");
     const [currentUserId, setCurrentUserId] = useState("");
+
+    const [alertMsg, setAlertMsg] = useState("")
+    const [alertVariant, setAlertVariant] = useState("success")
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -44,18 +47,21 @@ const AddExperience = () => {
 
         const token = localStorage.getItem("token");
         if (!token) {
-            alert("Effettua il login prima di pubblicare.");
+            setAlertVariant("danger")
+            setAlertMsg("Effettua il login prima di pubblicare")
             return;
         }
         if (dates.length === 0) {
-            alert("Aggiungi almeno una data disponibile");
+            setAlertVariant("danger")
+            setAlertMsg("Aggiungi almeno una data disponibile")
             return;
         }
 
         const now = new Date();
         const allDatesValid = dates.every((d) => new Date(d) > now);
         if (!allDatesValid) {
-            alert("Tutte le date devono essere future.");
+            setAlertVariant("danger")
+            setAlertMsg("Tutte le date devono essere future")
             return;
         }
 
@@ -89,7 +95,8 @@ const AddExperience = () => {
             }
 
             const result = await res.json();
-            alert("Post creato con successo!");
+            setAlertVariant("success")
+            setAlertMsg("Esperienza pubblicata con successo")
 
             setTitle("");
             setCategory("");
@@ -102,90 +109,96 @@ const AddExperience = () => {
             setImage("");
         } catch (err) {
             console.error(err);
-            alert("Errore nella pubblicazione del post.");
+            setAlertVariant("danger")
+            setAlertMsg("Errore nella pubblicazione dell'esperienza")
         }
     };
 
     return (
         <Container className="new-blog-container">
+            {alertMsg && (
+                <Alert variant={alertVariant} onClose={() => setAlertMsg("")} >
+                    {alertMsg}
+                </Alert>
+            )}
+
             <Form className="mt-5" onSubmit={handleSubmit}>
 
                 <Row>
                     <Col xs={12} md={6}>
-                <Form.Group className="mt-3">
-                    <Form.Label>Titolo</Form.Label>
-                    <Form.Control
-                        size="lg"
-                        placeholder="Titolo del post"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                    />
-                </Form.Group>
-                </Col>
-                 
-                 <Col xs={12} md={6}>
-                <Form.Group className="mt-3">
-                    <Form.Label>Categoria</Form.Label>
-                    <Form.Select
-                        size="lg"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        required
-                    >
-                        <option value="" disabled hidden>Categoria</option>
-                        <option>Natura e avventura</option>
-                        <option>Benessere e relax</option>
-                        <option>Arte e creatività</option>
-                        <option>Eventi e spettacoli</option>
-                        <option>Avventure urbane</option>
-                    </Form.Select>
-                </Form.Group>
-                </Col>
-                  <Col xs={12} md={6}>
-                <Form.Group className="mt-3">
-                    <Form.Label>Immagine Copertina</Form.Label>
-                    <Form.Control
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => setImage(e.target.files[0])}
-                    />
-                </Form.Group>
-                </Col>
+                        <Form.Group className="mt-3">
+                            <Form.Label>Titolo</Form.Label>
+                            <Form.Control
+                                size="lg"
+                                placeholder="Titolo del post"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                required
+                            />
+                        </Form.Group>
+                    </Col>
+
+                    <Col xs={12} md={6}>
+                        <Form.Group className="mt-3">
+                            <Form.Label>Categoria</Form.Label>
+                            <Form.Select
+                                size="lg"
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
+                                required
+                            >
+                                <option value="" disabled hidden>Categoria</option>
+                                <option>Natura e avventura</option>
+                                <option>Benessere e relax</option>
+                                <option>Eventi e spettacoli</option>
+                                <option>Avventure urbane</option>
+                            </Form.Select>
+                        </Form.Group>
+                    </Col>
+                    <Col xs={12} md={6}>
+                        <Form.Group className="mt-3">
+                            <Form.Label>Immagine Copertina</Form.Label>
+                            <Form.Control
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => setImage(e.target.files[0])}
+                            />
+                        </Form.Group>
+                    </Col>
 
 
-                <Col xs={12} md={6}>
-                <Form.Group className="mt-3">
-                    <Form.Label>Città</Form.Label>
-                    <Form.Control
-                        size="lg"
-                        placeholder="Città"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        required
-                    />
-                </Form.Group>
-                </Col>
+                    <Col xs={12} md={6}>
+                        <Form.Group className="mt-3">
+                            <Form.Label>Città</Form.Label>
+                            <Form.Control
+                                size="lg"
+                                placeholder="Città"
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                                required
+                            />
+                        </Form.Group>
+                    </Col>
 
 
-                <Col xs={12} md={6}>
-                <Form.Group className="mt-3">
-                    <Form.Label>Descrizione dell'attività</Form.Label>
-                    <Form.Control
-                        as="textarea"
-                        rows={8}
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Scrivi il contenuto del tuo post..."
-                        required
-                    />
-                </Form.Group>
-                </Col>
+                    <Col xs={12} md={6}>
+                        <Form.Group className="mt-3">
+                            <Form.Label>Descrizione dell'attività</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows={8}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                placeholder="Scrivi il contenuto del tuo post..."
+                                required
+                            />
+                        </Form.Group>
+                    </Col>
 
-                
 
-            
-                     <Col xs={12} md={6}>
+
+
+                    <Col xs={12} md={6}>
                         <Form.Label>Durata</Form.Label>
                         <Form.Control
                             type="number"
@@ -194,8 +207,8 @@ const AddExperience = () => {
                             placeholder="Durata"
                             required
                         />
-                    </Col>
-                    <Col xs={12} md={6}>
+                   
+                    
                         <Form.Label>Unità</Form.Label>
                         <Form.Select
                             value={durationUnit}
@@ -208,98 +221,98 @@ const AddExperience = () => {
                         </Form.Select>
                     </Col>
 
-                
-                  <Col xs={12} md={6}>
-                <Form.Group className="mt-3">
-                    <Form.Label>Prezzo</Form.Label>
-                    <InputGroup>
-                        <Form.Control
-                            size="lg"
-                            type="number"
-                            placeholder="Prezzo"
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
-                            required
-                        />
 
-                        <InputGroup.Text>€</InputGroup.Text>
-                    </InputGroup>
-                </Form.Group>
-                </Col>
+                    <Col xs={12} md={6}>
+                        <Form.Group className="mt-3">
+                            <Form.Label>Prezzo</Form.Label>
+                            <InputGroup>
+                                <Form.Control
+                                    size="lg"
+                                    type="number"
+                                    placeholder="Prezzo"
+                                    value={price}
+                                    onChange={(e) => setPrice(e.target.value)}
+                                    required
+                                />
 
-                <Col xs={12} md={6}>
-                <Form.Group className="mt-3">
-                    <Form.Label>Date disponibili</Form.Label>
-                    <InputGroup>
-                        <Form.Control
-                            type="date"
-                            value={dateInput}
-                            onChange={(e) => setDateInput(e.target.value)}
-                        />
-                        <Button
-                            variant="outline-secondary"
-                            onClick={() => {
-                                if (dateInput && !dates.includes(dateInput)) {
-                                    setDates([...dates, dateInput].sort((a, b)=> new Date(a) - new Date(b)));
-                                    setDateInput("");
-                                }
-                            }}
-                        >
-                            Aggiungi
-                        </Button>
-                    </InputGroup>
-                    <div className="mt-2">
-                        {dates.map((d, idx) => (
+                                <InputGroup.Text>€</InputGroup.Text>
+                            </InputGroup>
+                        </Form.Group>
+                    </Col>
+
+                    <Col xs={12} md={6}>
+                        <Form.Group className="mt-3">
+                            <Form.Label>Date disponibili</Form.Label>
+                            <InputGroup>
+                                <Form.Control
+                                    type="date"
+                                    value={dateInput}
+                                    onChange={(e) => setDateInput(e.target.value)}
+                                />
+                                <Button
+                                    variant="outline-secondary"
+                                    onClick={() => {
+                                        if (dateInput && !dates.includes(dateInput)) {
+                                            setDates([...dates, dateInput].sort((a, b) => new Date(a) - new Date(b)));
+                                            setDateInput("");
+                                        }
+                                    }}
+                                >
+                                    Aggiungi
+                                </Button>
+                            </InputGroup>
+                            <div className="mt-2">
+                                {dates.map((d, idx) => (
+                                    <Button
+                                        key={idx}
+                                        variant="outline-danger"
+                                        size="sm"
+                                        className="me-2 mt-2"
+                                        onClick={() =>
+                                            setDates(dates.filter((date) => date !== d))
+                                        }
+                                    >
+                                        {d} &times;
+                                    </Button>
+                                ))}
+                            </div>
+                        </Form.Group>
+                    </Col>
+
+
+                    <Col xs={12} md={6}>
+                        <Form.Group className="d-flex mt-4 justify-content-end">
                             <Button
-                                key={idx}
-                                variant="outline-danger"
-                                size="sm"
-                                className="me-2 mt-2"
-                                onClick={() =>
-                                    setDates(dates.filter((date) => date !== d))
-                                }
+                                type="button"
+                                size="lg"
+                                variant="outline-dark"
+                                onClick={() => {
+                                    setTitle("");
+                                    setCategory("");
+                                    setDescription("");
+                                    setCity("");
+                                    setPrice("");
+                                    setDurationUnit("");
+                                    setDurationValue("");
+                                    setDates([]);
+                                    setDateInput("")
+                                    setImage("");
+                                }}
+
                             >
-                                {d} &times;
+                                Reset
                             </Button>
-                        ))}
-                    </div>
-                </Form.Group>
-                </Col>
 
-
-                <Col xs={12} md={6}>
-                <Form.Group className="d-flex mt-4 justify-content-end">
-                    <Button
-                        type="button"
-                        size="lg"
-                        variant="outline-dark"
-                        onClick={() => {
-                            setTitle("");
-                            setCategory("");
-                            setDescription("");
-                            setCity("");
-                            setPrice("");
-                            setDurationUnit("");
-                            setDurationValue("");
-                            setDates([]);
-                            setDateInput("")
-                            setImage("");
-                        }}
-
-                    >
-                        Reset
-                    </Button>
-
-                    <Button
-                        type="submit"
-                        size="lg"
-                        variant="dark"
-                        style={{ marginLeft: "1em" }}
-                    >
-                        Invia
-                    </Button>
-                </Form.Group>
-                </Col>
+                            <Button
+                                type="submit"
+                                size="lg"
+                                variant="dark"
+                                style={{ marginLeft: "1em" }}
+                            >
+                                Invia
+                            </Button>
+                        </Form.Group>
+                    </Col>
 
                 </Row>
             </Form>

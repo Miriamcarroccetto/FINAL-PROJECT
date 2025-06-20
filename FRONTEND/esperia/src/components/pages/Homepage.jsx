@@ -27,7 +27,7 @@ export default function Homepage() {
    <Container  className="py-4" fluid="sm">
     <Row className="mb-3">
         <Col xs={12}>
-      <h1 className="blog-main-title mb-3">ESPERIA- Esperienze locali, emozioni vere</h1>
+      <h1 className="blog-main-title mb-3">Esperienze locali, emozioni vere</h1>
       </Col>
       </Row>
 
