@@ -1,8 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
 import "../pages/style.css";
 import { useAuth } from '../../utils/AuthProvider';
+const backendUrl = import.meta.env.VITE_APIURL;
+
+<p className="mt-3">
+  <a href={`${backendUrl}/users/auth/googlelogin?redirect=${redirectPath}`}>
+    Accedi con Google
+  </a>
+</p>
+
 
 export default function LoginPage({ setIsLoggedIn, fetchUsers }) {
 
@@ -104,11 +112,13 @@ export default function LoginPage({ setIsLoggedIn, fetchUsers }) {
       </Form>
 
       <p className="mt-3">
-        Non hai un account? <a href="users/register">Registrati qui</a>
+        Non hai un account? <Link to="/users/register">Registrati qui</Link>
       </p>
 
       <p className="mt-3">
-        <a href={`http://localhost:3001/users/auth/googlelogin?redirect=${redirectPath}`}>Accedi con Google</a>
+        <a href={`${backendUrl}/users/auth/googlelogin?redirect=${redirectPath}`}>
+          Accedi con Google
+        </a>
       </p>
 
     </Container>
