@@ -104,7 +104,7 @@ export default function LoginPage({ setIsLoggedIn, fetchUsers }) {
       </Form>
 
       <p className="mt-3">
-        Non hai un account? <a href="/register">Registrati qui</a>
+        Non hai un account? <a href="users/register">Registrati qui</a>
       </p>
 
       <p className="mt-3">
