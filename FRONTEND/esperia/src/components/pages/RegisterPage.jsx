@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
 import './style.css'
 
 export default function RegisterPage() {
@@ -13,7 +15,7 @@ export default function RegisterPage() {
         password: '',
 
     });
-    
+
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
 
@@ -114,8 +116,9 @@ export default function RegisterPage() {
             </Form>
 
             <p className="mt-3">
-                Hai già un account? <a href="/login">Accedi qui</a>
+                Hai già un account? <Link to="/login">Accedi qui</Link>
             </p>
+
 
         </Container>
     );
