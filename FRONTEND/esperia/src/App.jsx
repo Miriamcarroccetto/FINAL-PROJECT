@@ -58,7 +58,7 @@ export default function App() {
         <Route path="/new" element={<AddExperience />} />
         <Route path="/" exact element={<Homepage/>}></Route>
         <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} fetchUsers={fetchUsers} />} />
-         <Route path="/register" element={<RegisterPage setIsLoggedIn={setIsLoggedIn} fetchUsers={fetchUsers} />} />
+         <Route path="/users/register" element={<RegisterPage setIsLoggedIn={setIsLoggedIn} fetchUsers={fetchUsers} />} />
          <Route path='/experiences/category/:categoryName' element={<CategoryExperienceList/>}/>
          <Route path='/bookings/:id' element={<BookingPage/>}/>
          <Route path='/my-bookings' element={<MyBookingsPage/>}/>
