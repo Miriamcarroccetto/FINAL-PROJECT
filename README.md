@@ -22,8 +22,7 @@ Piattaforma per la **prenotazione di esperienze locali autentiche** 🌍
 
 
 ## 🎯 OBIETTIVI
-
-- 📱 Piattaforma web **responsive** con interfaccia moderna  
+ 
 - 🔐 Gestione completa di **autenticazione** e **autorizzazione**  
 - 📅 Sistema di **prenotazione** e gestione esperienze  
 - 🧩 Coerenza, **validazione** e **sicurezza** dei dati  
